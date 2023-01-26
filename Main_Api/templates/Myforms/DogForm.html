@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dog Recommendation</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, textarea, p {
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      h1 {
+      position: absolute;
+      margin: 0;
+      font-size: 32px;
+      color: #fff;
+      z-index: 2;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 20px;
+      }
+      form {
+      width: 100%;
+      padding: 20px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 0 30px 0 #8ebf42;
+      }
+      .banner {
+      position: relative;
+      height: 210px;
+      background-image: url("https://cdn.theatlantic.com/thumbor/2fkDv3ZKhQqGLkI_GDy_4y_h4ZY=/0x0:2809x1580/976x549/media/img/mt/2022/04/GettyImages_515303226/original.jpg");
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      }
+      .banner::after {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      }
+      p.top-info {
+      margin: 10px 0;
+      }
+      input, select, textarea {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+      select {
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      }
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color: #8ebf42;
+      }
+      .item input:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 8px 0 #8ebf42;
+      color: #8ebf42;
+      }
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #a9a9a9;
+      }
+      .item i {
+      right: 2%;
+      top: 30px;
+      z-index: 1;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 1%;
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+      input[type=radio] {
+      width: 0;
+      visibility: hidden;
+      }
+      label.radio {
+      position: relative;
+      display: inline-block;
+      margin: 5px 20px 25px 0;
+      cursor: pointer;
+      }
+      .question span {
+      margin-left: 30px;
+      }
+      label.radio:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 2px solid #8ebf42;
+      }
+      label.radio:after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 4px;
+      top: 6px;
+      left: 5px;
+      background: transparent;
+      border: 3px solid #8ebf42;
+      border-top: none;
+      border-right: none;
+      transform: rotate(-45deg);
+      opacity: 0;
+      }
+      input[type=radio]:checked + label:after {
+      opacity: 1;
+      }
+      .btn-block {
+      margin-top: 10px;
+      text-align: center;
+      }
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #8ebf42;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background: #82b534;
+      }
+      @media (min-width: 568px) {
+      .name-item, .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      }
+      .name-item input, .city-item input {
+      width: calc(50% - 20px);
+      }
+      .city-item select {
+      width: calc(50% - 8px);
+      }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testbox">
+      <form action="", method="POST">
+        {% csrf_token %}
+        <div class="banner">
+          <h1>Dog Recommendation Form</h1>
+        </div>
+        <div class="item">
+          <p>Name</p>
+          <input type="text" value="John Doe" id="name" name="name"/>
+        </div>
+        <div class="item">
+          <p>Grooming Frequency Category</p>
+          <select name="gfc" id="gfc">
+            <option value="2-3 Times a Week Brushing">2-3 Times a Week Brushing</option>
+            <option value="Daily Brushing">Daily Brushing</option>
+            <option value="Occasional Bath/Brush">Occasional Bath/Brush</option>
+            <option value="Specialty/Professional">Specialty/Professional</option>
+            <option value="Weekly Brushing">Weekly Brushing</option>
+          </select>
+        </div>
+        <div class="item">
+          <p>Shedding Frequency Category:</p>
+          <select name="sc" id="sc">
+            <option value="Frequent">Frequent</option>
+            <option value="Infrequent">Infrequent</option>
+            <option value="Occasional">Occasional</option>
+            <option value="Regularly">Regularly</option>
+            <option value="Seasonal">Seasonal</option>
+          </select>
+        </div>
+        <div class="item">
+          <p>Energy Level Category:</p>
+          <select name="elc" id="elc">
+            <option value="Calm">Calm</option>
+            <option value="Couch Potato">Couch Potato</option>
+            <option value="Energetic">Energetic</option>
+            <option value="Needs Lots of Activity">Needs Lots of Activity</option>
+            <option value="Regular Exercise">Regular Exercise</option>
+          </select>
+        </div>
+        <div class="item">
+          <p>Trainability Category:</p>
+          <select name="tc" id="tc">
+            <option value="Agreeable">Agreeable</option>
+            <option value="Eager to Please">Eager to Please</option>
+            <option value="Easy Training">Easy Training</option>
+            <option value="Independent">Independent</option>
+            <option value="May be Stubborn">May be Stubborn</option>
+          </select>
+        </div>
+        <div class="item">
+          <p>Demeanor Category:</p>
+          <select name="dc" id="dc">
+            <option value="Alert/Responsive">Alert/Responsive</option>
+            <option value="Aloof/Wary">Aloof/Wary</option>
+            <option value="Friendly">Friendly</option>
+            <option value="Outgoing">Outgoing</option>
+            <option value="Reserved with Strangers">Reserved with Strangers</option>
+          </select>
+        </div>
+        <div class="item">
+          <p>Mention anything else you would like to inform us below</p>
+          <input type="text" value="none" id="xtra1" name="xtra"/>
+        </div>
+        <div class="btn-block">
+          <button type="submit" href="">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

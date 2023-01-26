@@ -1,0 +1,21 @@
+Grooming_freqeuncy_category : 
+["2-3 Times a Week Brushing","Daily Brushing","Occasional Bath/Brush","Specialty/Professional","Weekly Brushing"]
+0 1 2 3 4
+
+shedding_category :
+["Frequent"," Infrequent","Occasional","Regularly","Seasonal"]
+
+energy_level_category :
+["Calm","Couch Potato","Energetic","Needs Lots of Activity","Regular Exercise"]
+
+trainability_category :
+["Agreeable", "Eager to Please","Easy Training","Independent","May be Stubborn"]
+0 1 2 3 4
+
+demeanor category : 
+["Alert/Responsive"," Aloof/Wary","Friendly","Outgoing","Reserved with Strangers"]
+0 1 2 3 4 
+
+group :
+["Foundation Stock Service","Herding Group","Hound Group","","Non-Sporting Group","Sporting Group","Terrier Group","Toy Group","Working Group"]
+0 1 2 3 4 5 6 7 8
