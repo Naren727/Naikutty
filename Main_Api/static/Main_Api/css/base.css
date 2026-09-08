@@ -271,8 +271,7 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .form-page .btn { width: 100%; }
 
 /* Result page */
-.result-page { max-width: 640px; margin: 40px auto; padding: 0 24px; }
-.result-page .back-link { display: inline-block; margin-bottom: 20px; font-weight: 600; }
+.result-page { max-width: 640px; margin: 32px auto 40px; padding: 0 24px; }
 .result-page .group-callout { margin: 12px 0 28px; }
 .result-page .group-callout .tag { font-size: 16px; padding: 8px 20px; }
 .breed-card { display: flex; gap: 16px; margin-bottom: 16px; }
@@ -286,8 +285,8 @@ a { color: var(--color-primary-dark); text-decoration: none; }
   align-items: center;
   justify-content: center;
   background: var(--color-bg);
-  border: 3px solid var(--color-accent);
   font-size: 24px;
+  box-shadow: 0 8px 18px -4px rgba(224, 142, 69, 0.45);
 }
 .breed-card .photo-frame img {
   width: 100%;
