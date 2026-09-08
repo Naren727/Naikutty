@@ -204,8 +204,24 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .breed-card p.description { color: var(--color-text-muted); margin-top: 10px; }
 .result-page .try-again { margin-top: 24px; }
 
+@media (max-width: 1024px) {
+  .feature-row .feature-illustration svg { max-width: 170px; }
+}
+
+@media (max-width: 768px) {
+  .site-nav { flex-wrap: wrap; gap: 12px; justify-content: center; text-align: center; }
+  .tip-grid, .stats-row { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 640px) {
   .feature-row, .feature-row.reverse { flex-direction: column; }
-  .tip-grid, .stats-row { grid-template-columns: 1fr 1fr; }
   .hero h1 { font-size: 32px; }
+}
+
+@media (max-width: 480px) {
+  .tip-grid, .stats-row { grid-template-columns: 1fr; }
+  .hero { padding: 40px 16px 30px; }
+  .form-page, .result-page { padding: 0 16px; }
+  .breed-card .photo-frame { width: 44px; height: 44px; font-size: 20px; }
+  .feature-row .feature-illustration svg { max-width: 150px; }
 }
