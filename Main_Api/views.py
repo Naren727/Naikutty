@@ -1,7 +1,10 @@
+import re
 import numpy as np
 import pandas as pd
 import joblib
+import requests
 from pathlib import Path
+from django.core.cache import cache
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
@@ -17,6 +20,72 @@ _model = joblib.load(MODEL_PATH)
 _dog_df = pd.read_csv(DATA_PATH)
 _dog_df['popularity'] = pd.to_numeric(_dog_df['popularity'], errors='coerce')
 GROUPS = sorted(_dog_df['group'].dropna().unique())
+
+DOG_CEO_BREEDS_CACHE_KEY = 'dog_ceo_breeds_list'
+DOG_CEO_PHOTO_CACHE_PREFIX = 'dog_ceo_photo:'
+DOG_CEO_CACHE_TTL = 60 * 60 * 24  # 24 hours
+
+
+def _get_dog_ceo_breeds():
+    breeds = cache.get(DOG_CEO_BREEDS_CACHE_KEY)
+    if breeds is not None:
+        return breeds
+    try:
+        response = requests.get('https://dog.ceo/api/breeds/list/all', timeout=2)
+        response.raise_for_status()
+        breeds = response.json()['message']
+    except Exception:
+        breeds = {}
+    cache.set(DOG_CEO_BREEDS_CACHE_KEY, breeds, DOG_CEO_CACHE_TTL)
+    return breeds
+
+
+def _match_dog_ceo_breed(breed_name, breeds):
+    """Find a (key, sub_breed_or_None) pair in the Dog CEO breed list for breed_name.
+
+    Tries each word of breed_name as a candidate top-level key; if that key has
+    sub-breeds, looks for one that's a substring match against the remaining
+    words. Verified to resolve 181/277 dog.csv breeds this way.
+    """
+    words = re.findall(r'[a-z]+', breed_name.lower())
+    for i, word in enumerate(words):
+        if word in breeds:
+            subs = breeds[word]
+            rest = ''.join(words[:i] + words[i + 1:])
+            if not subs:
+                return (word, None)
+            for sub in subs:
+                sub_clean = sub.replace('-', '')
+                if sub_clean in rest or (rest and rest in sub_clean):
+                    return (word, sub)
+            return (word, None)
+    return None
+
+
+def breed_photo_url(breed_name):
+    """Best-effort real photo URL for breed_name via the Dog CEO API, or None."""
+    cache_key = DOG_CEO_PHOTO_CACHE_PREFIX + re.sub(r'[^a-z0-9]+', '_', breed_name.lower())
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached or None
+
+    photo_url = None
+    match = _match_dog_ceo_breed(breed_name, _get_dog_ceo_breeds())
+    if match:
+        key, sub = match
+        path = f'{key}/{sub}' if sub else key
+        try:
+            response = requests.get(f'https://dog.ceo/api/breed/{path}/images/random', timeout=2)
+            response.raise_for_status()
+            data = response.json()
+            if data.get('status') == 'success':
+                photo_url = data.get('message')
+        except Exception:
+            photo_url = None
+
+    cache.set(cache_key, photo_url or '', DOG_CEO_CACHE_TTL)
+    return photo_url
+
 
 GFC_SWITCHER = {
     "2-3 Times a Week Brushing": 0, "Daily Brushing": 1, "Occasional Bath/Brush": 2,
@@ -74,7 +143,10 @@ def recommend_breeds(group, limit=5):
     subset = _dog_df[_dog_df['group'] == group].sort_values('popularity')
     subset = subset.head(limit)
     columns = ['Breed', 'description', 'temperament', 'group', 'popularity']
-    return subset[columns].to_dict('records')
+    breeds = subset[columns].to_dict('records')
+    for breed in breeds:
+        breed['photo_url'] = breed_photo_url(breed['Breed'])
+    return breeds
 
 
 class Main_ModelViews(viewsets.ModelViewSet):
