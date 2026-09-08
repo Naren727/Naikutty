@@ -10,7 +10,7 @@
   </head>
   <body>
     <nav class="site-nav">
-      <span class="wordmark">&#128062; NaiKutty</span>
+      <a class="wordmark" href="/">&#128062; NaiKutty</a>
       <div class="nav-links">
         <a href="#about">Dogs?</a>
         <a href="#features">Info</a>
@@ -19,6 +19,8 @@
     </nav>
 
     <div class="hero">
+      <div class="hero-glow"></div>
+      <span class="eyebrow">&#128062; Free &middot; Takes 30 seconds</span>
       <svg class="illustration" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <circle cx="100" cy="110" r="70" fill="#f6c893"/>
         <ellipse cx="55" cy="60" rx="22" ry="34" fill="#e08e45" transform="rotate(-20 55 60)"/>
@@ -29,9 +31,12 @@
         <path d="M100 140 Q100 155 115 155" stroke="#3a3a3a" stroke-width="4" fill="none" stroke-linecap="round"/>
         <ellipse cx="100" cy="160" rx="18" ry="10" fill="#f28fa1"/>
       </svg>
-      <h1>NaiKutty.com</h1>
-      <p class="subhead">Pick out your furry friend today!</p>
-      <a class="btn btn-primary" href="/form">Get a Dog</a>
+      <h1>Pick out your <span class="gradient-text">furry friend</span> today</h1>
+      <p class="subhead">Answer five quick questions and we'll match you with a breed group that actually fits your life.</p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="/form">Get a Dog</a>
+        <a class="btn btn-secondary" href="#about">See how it works</a>
+      </div>
     </div>
 
     <div class="feature-row" id="about">
