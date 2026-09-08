@@ -1,32 +1,36 @@
+{% load static %}
+{% load dog_extras %}
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Your Dog Recommendation</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <style>
-      body { font-family: Roboto, Arial, sans-serif; color: #666; max-width: 700px; margin: 40px auto; padding: 0 20px; }
-      h1 { color: #333; }
-      .group-tag { display: inline-block; background: #8ebf42; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 14px; margin-bottom: 20px; }
-      .breed-card { border: 1px solid #ddd; border-radius: 6px; padding: 16px; margin-bottom: 16px; }
-      .breed-card h2 { margin: 0 0 6px 0; font-size: 20px; color: #333; }
-      .temperament { color: #8ebf42; font-weight: 500; margin-bottom: 8px; }
-      a.back-link { display: inline-block; margin-top: 20px; color: #8ebf42; }
-    </style>
+    <meta charset="utf-8">
+    <title>Your Dog Recommendation — NaiKutty</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'Main_Api/css/base.css' %}">
   </head>
   <body>
-    <h1>Thanks, {{ name }}!</h1>
-    <p>Based on your preferences, you're best matched with the:</p>
-    <span class="group-tag">{{ group }}</span>
-    <h3>Recommended breeds</h3>
-    {% for breed in breeds %}
-    <div class="breed-card">
-      <h2>{{ breed.Breed }}</h2>
-      <p class="temperament">{{ breed.temperament }}</p>
-      <p>{{ breed.description|truncatewords:40 }}</p>
+    <div class="result-page">
+      <a class="back-link" href="/">&larr; NaiKutty</a>
+      <h1>Thanks, {{ name }}!</h1>
+      <p>Based on your preferences, you're best matched with the:</p>
+      <div class="group-callout"><span class="tag tag-primary">{{ group }}</span></div>
+      <h3>Recommended breeds</h3>
+      {% for breed in breeds %}
+      <div class="card breed-card">
+        <div class="paw">&#128062;</div>
+        <div>
+          <h2>{{ breed.Breed }}</h2>
+          <div>
+            {% for trait in breed.temperament|split_comma %}<span class="tag">{{ trait }}</span>{% endfor %}
+          </div>
+          <p class="description">{{ breed.description|truncatewords:40 }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <p>No breeds found for this group.</p>
+      {% endfor %}
+      <a class="btn btn-secondary try-again" href="/form/">&larr; Try again</a>
     </div>
-    {% empty %}
-    <p>No breeds found for this group.</p>
-    {% endfor %}
-    <a class="back-link" href="/form/">&larr; Try again</a>
   </body>
 </html>
