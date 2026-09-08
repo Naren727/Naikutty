@@ -18,7 +18,9 @@
       <h3>Recommended breeds</h3>
       {% for breed in breeds %}
       <div class="card breed-card">
-        <div class="paw">&#128062;</div>
+        <div class="photo-frame">
+          {% if breed.photo_url %}<img src="{{ breed.photo_url }}" alt="{{ breed.Breed }}">{% else %}&#128062;{% endif %}
+        </div>
         <div>
           <h2>{{ breed.Breed }}</h2>
           <div>
