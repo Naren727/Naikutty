@@ -247,8 +247,7 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .site-footer .wordmark { font-family: var(--font-heading); font-size: 20px; color: var(--color-primary-dark); display: block; margin-bottom: 8px; }
 
 /* Form card (DogForm) */
-.form-page { max-width: 520px; margin: 40px auto; padding: 0 24px; }
-.form-page .back-link { display: inline-block; margin-bottom: 20px; font-weight: 600; }
+.form-page { max-width: 520px; margin: 32px auto 40px; padding: 0 24px; }
 .form-page p.intro { color: var(--color-text-muted); margin-top: -8px; }
 .field { margin-bottom: 20px; }
 .field label { display: block; font-weight: 600; margin-bottom: 6px; }
