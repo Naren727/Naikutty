@@ -15,8 +15,11 @@
     </nav>
     <div class="result-page">
       <h1>Thanks, {{ name }}!</h1>
-      <p>Based on your preferences, you're best matched with the:</p>
-      <div class="group-callout"><span class="tag tag-primary">{{ group }}</span></div>
+      <p>Based on your preferences, you're best matched with dogs from this breed group:</p>
+      <div class="group-callout">
+        <span class="tag tag-primary">{{ group }}</span>
+        <p class="group-hint">A breed group is a category of similar dog breeds — see your top matches from it below.</p>
+      </div>
       <h3>Recommended breeds</h3>
       {% for breed in breeds %}
       <div class="card breed-card">
