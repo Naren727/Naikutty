@@ -1,0 +1,43 @@
+{% load static %}
+{% load dog_extras %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Your Dog Recommendation — NaiKutty</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'Main_Api/css/base.css' %}">
+  </head>
+  <body>
+    <nav class="site-nav">
+      <a class="wordmark" href="/">&#128062; NaiKutty</a>
+    </nav>
+    <div class="result-page">
+      <h1>Thanks, {{ name }}!</h1>
+      <p>Based on your preferences, you're best matched with dogs from this breed group:</p>
+      <div class="group-callout">
+        <span class="tag tag-primary">{{ group }}</span>
+        <p class="group-hint">A breed group is a category of similar dog breeds — see your top matches from it below.</p>
+      </div>
+      <h3>Recommended breeds</h3>
+      {% for breed in breeds %}
+      <div class="card breed-card">
+        <div class="photo-frame">
+          {% if breed.photo_url %}<img src="{{ breed.photo_url }}" alt="{{ breed.Breed }}">{% else %}&#128062;{% endif %}
+        </div>
+        <div>
+          <h2>{{ breed.Breed }}</h2>
+          <div>
+            {% for trait in breed.temperament|split_comma %}<span class="tag">{{ trait }}</span>{% endfor %}
+          </div>
+          <p class="description">{{ breed.description|truncatewords:40 }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <p>No breeds found for this group.</p>
+      {% endfor %}
+      <a class="btn btn-secondary try-again" href="/form/">&larr; Try again</a>
+    </div>
+  </body>
+</html>
